@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="E_TICARET_MAGAZAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="KATEGORI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KATEGORI_AD" Type="varchar" MaxLength="50" />
+          <Property Name="EK_BILGI" Type="varchar" MaxLength="50" />
+          <Property Name="ACIKLAMA" Type="varchar" MaxLength="50" />
+          <Property Name="EK_ID_BILGI" Type="int" />
+        </EntityType>
+        <EntityType Name="KULLANICI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KULLANICI_ADI" Type="varchar" MaxLength="50" />
+          <Property Name="SIFRE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="50" />
+          <Property Name="SOYAD" Type="varchar" MaxLength="50" />
+          <Property Name="ACIK_ADRES" Type="varchar" MaxLength="250" />
+          <Property Name="ACIKLAMA" Type="varchar" MaxLength="50" />
+          <Property Name="EK_BILGI" Type="varchar" MaxLength="50" />
+          <Property Name="EK_ID_BILGI" Type="int" />
+        </EntityType>
+        <EntityType Name="PERSONEL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD" Type="varchar" MaxLength="50" />
+          <Property Name="SOYAD" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SATIS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URUN_ID" Type="int" />
+          <Property Name="PERSONEL_ID" Type="int" />
+          <Property Name="MUSTERI_ID" Type="int" />
+          <Property Name="FIYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ADET" Type="int" />
+        </EntityType>
+        <EntityType Name="URUN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="URUN_AD" Type="varchar" MaxLength="50" />
+          <Property Name="URUN_MARKA" Type="varchar" MaxLength="50" />
+          <Property Name="KATEGORI_ID" Type="int" />
+          <Property Name="GELIS_FIYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ETIKET_FIYAT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="STOK" Type="int" />
+          <Property Name="DURUM" Type="bit" />
+        </EntityType>
+        <Association Name="FK_SATIS_MUSTERI">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="MUSTERI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SATIS_PERSONEL">
+          <End Role="PERSONEL" Type="Self.PERSONEL" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="PERSONEL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SATIS_URUN">
+          <End Role="URUN" Type="Self.URUN" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="URUN">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="URUN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_URUN_KATEGORI">
+          <End Role="KATEGORI" Type="Self.KATEGORI" Multiplicity="0..1" />
+          <End Role="URUN" Type="Self.URUN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KATEGORI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="URUN">
+              <PropertyRef Name="KATEGORI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="E_TICARET_MAGAZAModelStoreContainer">
+          <EntitySet Name="KATEGORI" EntityType="Self.KATEGORI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KULLANICI" EntityType="Self.KULLANICI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PERSONEL" EntityType="Self.PERSONEL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SATIS" EntityType="Self.SATIS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="URUN" EntityType="Self.URUN" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SATIS_MUSTERI" Association="Self.FK_SATIS_MUSTERI">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SATIS_PERSONEL" Association="Self.FK_SATIS_PERSONEL">
+            <End Role="PERSONEL" EntitySet="PERSONEL" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SATIS_URUN" Association="Self.FK_SATIS_URUN">
+            <End Role="URUN" EntitySet="URUN" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_URUN_KATEGORI" Association="Self.FK_URUN_KATEGORI">
+            <End Role="KATEGORI" EntitySet="KATEGORI" />
+            <End Role="URUN" EntitySet="URUN" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="E_TICARET_MAGAZAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="KATEGORI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KATEGORI_AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EK_BILGI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACIKLAMA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EK_ID_BILGI" Type="Int32" />
+          <NavigationProperty Name="URUN" Relationship="Self.FK_URUN_KATEGORI" FromRole="KATEGORI" ToRole="URUN" />
+        </EntityType>
+        <EntityType Name="MUSTERI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOYAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ACIK_ADRES" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ACIKLAMA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EK_BILGI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EK_ID_BILGI" Type="Int32" />
+          <NavigationProperty Name="SATIS" Relationship="Self.FK_SATIS_MUSTERI" FromRole="MUSTERI" ToRole="SATIS" />
+        </EntityType>
+        <EntityType Name="PERSONEL">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOYAD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SATIS" Relationship="Self.FK_SATIS_PERSONEL" FromRole="PERSONEL" ToRole="SATIS" />
+        </EntityType>
+        <EntityType Name="SATIS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URUN_ID" Type="Int32" />
+          <Property Name="PERSONEL_ID" Type="Int32" />
+          <Property Name="MUSTERI_ID" Type="Int32" />
+          <Property Name="FIYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ADET" Type="Int32" />
+          <NavigationProperty Name="MUSTERI" Relationship="Self.FK_SATIS_MUSTERI" FromRole="SATIS" ToRole="MUSTERI" />
+          <NavigationProperty Name="PERSONEL" Relationship="Self.FK_SATIS_PERSONEL" FromRole="SATIS" ToRole="PERSONEL" />
+          <NavigationProperty Name="URUN" Relationship="Self.FK_SATIS_URUN" FromRole="SATIS" ToRole="URUN" />
+        </EntityType>
+        <EntityType Name="URUN">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="URUN_AD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="URUN_MARKA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KATEGORI_ID" Type="Int32" />
+          <Property Name="GELIS_FIYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ETIKET_FIYAT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="STOK" Type="Int32" />
+          <NavigationProperty Name="KATEGORI" Relationship="Self.FK_URUN_KATEGORI" FromRole="URUN" ToRole="KATEGORI" />
+          <NavigationProperty Name="SATIS" Relationship="Self.FK_SATIS_URUN" FromRole="URUN" ToRole="SATIS" />
+          <Property Name="DURUM" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_URUN_KATEGORI">
+          <End Role="KATEGORI" Type="Self.KATEGORI" Multiplicity="0..1" />
+          <End Role="URUN" Type="Self.URUN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="KATEGORI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="URUN">
+              <PropertyRef Name="KATEGORI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SATIS_MUSTERI">
+          <End Role="MUSTERI" Type="Self.MUSTERI" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MUSTERI">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="MUSTERI_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SATIS_PERSONEL">
+          <End Role="PERSONEL" Type="Self.PERSONEL" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PERSONEL">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="PERSONEL_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SATIS_URUN">
+          <End Role="URUN" Type="Self.URUN" Multiplicity="0..1" />
+          <End Role="SATIS" Type="Self.SATIS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="URUN">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SATIS">
+              <PropertyRef Name="URUN_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="E_TICARET_MAGAZAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="KATEGORI" EntityType="Self.KATEGORI" />
+          <EntitySet Name="MUSTERI" EntityType="Self.MUSTERI" />
+          <EntitySet Name="PERSONEL" EntityType="Self.PERSONEL" />
+          <EntitySet Name="SATIS" EntityType="Self.SATIS" />
+          <EntitySet Name="URUN" EntityType="Self.URUN" />
+          <AssociationSet Name="FK_URUN_KATEGORI" Association="Self.FK_URUN_KATEGORI">
+            <End Role="KATEGORI" EntitySet="KATEGORI" />
+            <End Role="URUN" EntitySet="URUN" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SATIS_MUSTERI" Association="Self.FK_SATIS_MUSTERI">
+            <End Role="MUSTERI" EntitySet="MUSTERI" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SATIS_PERSONEL" Association="Self.FK_SATIS_PERSONEL">
+            <End Role="PERSONEL" EntitySet="PERSONEL" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SATIS_URUN" Association="Self.FK_SATIS_URUN">
+            <End Role="URUN" EntitySet="URUN" />
+            <End Role="SATIS" EntitySet="SATIS" />
+          </AssociationSet>
+          <EntitySet Name="KULLANICI" EntityType="E_TICARET_MAGAZAModel.KULLANICI" />
+        </EntityContainer>
+        <EntityType Name="KULLANICI">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KULLANICI_ADI" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SIFRE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="E_TICARET_MAGAZAModelStoreContainer" CdmEntityContainer="E_TICARET_MAGAZAEntities">
+          <EntitySetMapping Name="KATEGORI">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.KATEGORI">
+              <MappingFragment StoreEntitySet="KATEGORI">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="KATEGORI_AD" ColumnName="KATEGORI_AD" />
+                <ScalarProperty Name="EK_BILGI" ColumnName="EK_BILGI" />
+                <ScalarProperty Name="ACIKLAMA" ColumnName="ACIKLAMA" />
+                <ScalarProperty Name="EK_ID_BILGI" ColumnName="EK_ID_BILGI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MUSTERI">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.MUSTERI">
+              <MappingFragment StoreEntitySet="MUSTERI">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="SOYAD" ColumnName="SOYAD" />
+                <ScalarProperty Name="ACIK_ADRES" ColumnName="ACIK_ADRES" />
+                <ScalarProperty Name="ACIKLAMA" ColumnName="ACIKLAMA" />
+                <ScalarProperty Name="EK_BILGI" ColumnName="EK_BILGI" />
+                <ScalarProperty Name="EK_ID_BILGI" ColumnName="EK_ID_BILGI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PERSONEL">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.PERSONEL">
+              <MappingFragment StoreEntitySet="PERSONEL">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AD" ColumnName="AD" />
+                <ScalarProperty Name="SOYAD" ColumnName="SOYAD" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SATIS">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.SATIS">
+              <MappingFragment StoreEntitySet="SATIS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="URUN_ID" ColumnName="URUN_ID" />
+                <ScalarProperty Name="PERSONEL_ID" ColumnName="PERSONEL_ID" />
+                <ScalarProperty Name="MUSTERI_ID" ColumnName="MUSTERI_ID" />
+                <ScalarProperty Name="FIYAT" ColumnName="FIYAT" />
+                <ScalarProperty Name="ADET" ColumnName="ADET" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="URUN">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.URUN">
+              <MappingFragment StoreEntitySet="URUN">
+                <ScalarProperty Name="DURUM" ColumnName="DURUM" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="URUN_AD" ColumnName="URUN_AD" />
+                <ScalarProperty Name="URUN_MARKA" ColumnName="URUN_MARKA" />
+                <ScalarProperty Name="KATEGORI_ID" ColumnName="KATEGORI_ID" />
+                <ScalarProperty Name="GELIS_FIYAT" ColumnName="GELIS_FIYAT" />
+                <ScalarProperty Name="ETIKET_FIYAT" ColumnName="ETIKET_FIYAT" />
+                <ScalarProperty Name="STOK" ColumnName="STOK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KULLANICI">
+            <EntityTypeMapping TypeName="E_TICARET_MAGAZAModel.KULLANICI">
+              <MappingFragment StoreEntitySet="KULLANICI">
+                <ScalarProperty Name="SIFRE" ColumnName="SIFRE" />
+                <ScalarProperty Name="KULLANICI_ADI" ColumnName="KULLANICI_ADI" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
